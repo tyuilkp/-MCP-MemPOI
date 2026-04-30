@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Intent Schema",
+  "description": "用户意图解析结果",
+  "type": "object",
+  "properties": {
+    "category": {
+      "type": "string",
+      "enum": ["cafe", "restaurant", "attraction"],
+      "description": "POI类别"
+    },
+    "max_distance_km": {
+      "type": "number",
+      "minimum": 0,
+      "description": "最大距离（公里）"
+    },
+    "price_level": {
+      "type": ["integer", "null"],
+      "minimum": 1,
+      "maximum": 4,
+      "description": "价格等级 (1-4)"
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "关键词列表"
+    }
+  },
+  "required": ["category", "max_distance_km", "keywords"]
+}

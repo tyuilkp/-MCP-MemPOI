@@ -1,0 +1,54 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "POI Schema",
+  "description": "POI 对象结构",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "integer",
+      "description": "POI ID"
+    },
+    "name": {
+      "type": "string",
+      "description": "POI 名称"
+    },
+    "category": {
+      "type": "string",
+      "enum": ["cafe", "restaurant", "attraction"],
+      "description": "POI 类别"
+    },
+    "latitude": {
+      "type": "number",
+      "description": "纬度"
+    },
+    "longitude": {
+      "type": "number",
+      "description": "经度"
+    },
+    "distance_km": {
+      "type": "number",
+      "minimum": 0,
+      "description": "距离（公里）"
+    },
+    "rating": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 5,
+      "description": "评分 (0-5)"
+    },
+    "price_level": {
+      "type": ["integer", "null"],
+      "minimum": 1,
+      "maximum": 4,
+      "description": "价格等级 (1-4)"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "标签列表"
+    }
+  },
+  "required": ["id", "name", "category", "distance_km", "rating", "tags"]
+}

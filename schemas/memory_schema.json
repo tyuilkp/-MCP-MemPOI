@@ -1,0 +1,27 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Memory Schema",
+  "description": "用户记忆对象结构",
+  "type": "object",
+  "properties": {
+    "category": {
+      "type": "string",
+      "enum": ["cafe", "restaurant", "attraction"],
+      "description": "POI 类别"
+    },
+    "keywords": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "关键词列表"
+    },
+    "weight": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1,
+      "description": "权重 (0.0-1.0)"
+    }
+  },
+  "required": ["category", "keywords", "weight"]
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Feedback Schema",
+  "description": "用户反馈对象结构",
+  "type": "object",
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "description": "用户ID"
+    },
+    "session_id": {
+      "type": "string",
+      "description": "会话ID"
+    },
+    "poi_id": {
+      "type": "integer",
+      "description": "POI ID"
+    },
+    "rating": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 5,
+      "description": "评分 (1-5)"
+    },
+    "feedback_text": {
+      "type": ["string", "null"],
+      "description": "反馈文本"
+    }
+  },
+  "required": ["user_id", "session_id", "poi_id", "rating"]
+}

@@ -1,0 +1,15 @@
+database:
+  path: database/mempoi.sqlite
+
+ranking:
+  weights:
+    rating: 0.4
+    distance: 0.3
+    preference: 0.3
+
+  top_k: 5
+
+memory:
+  max_history: 10
+  weight_decay: 0.9
+  min_weight: 0.1
