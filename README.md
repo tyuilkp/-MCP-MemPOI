@@ -2,6 +2,20 @@
 
 基于 FastMCP 的 POI 推荐系统，支持记忆和个性化推荐。
 
+## 🏗️ 架构说明
+
+本项目是 **Table MCP**，负责运行时推荐系统。它与 **Graph MCP** 配合工作：
+
+- **Table MCP**（本项目）：运行时推荐、检索、排序、解释、反馈更新
+- **Graph MCP**（独立项目）：将图结构 POI 数据集转换为关系表
+
+### 数据流
+
+```
+Graph MCP → poi_info 表 → Table MCP → 用户推荐
+         → poi_relations 表 ↗
+```
+
 ## 项目结构
 
 ```
@@ -14,6 +28,9 @@ mcp-mempoi/
 ├── config.yaml          # 配置文件
 ├── database/            # 数据库文件目录
 │   └── mempoi.sqlite
+├── scripts/             # 脚本
+│   ├── run_demo.py
+│   └── migrate_graph_tables.py  # Graph-to-Table 迁移脚本
 ├── tools/               # MCP Tools 实现
 │   ├── session_tools.py    # 会话管理工具
 │   ├── memory_tools.py     # 记忆管理工具
@@ -59,12 +76,22 @@ pip install -r requirements.txt
 python init_db.py
 ```
 
-3. **生成示例数据（可选）**
+3. **运行 Graph-to-Table 迁移（支持 Graph MCP 数据写入）**
+```bash
+python scripts/migrate_graph_tables.py
+```
+
+这将创建以下表：
+- `poi_info` - POI 基础信息（Graph MCP 写入，Table MCP 读取）
+- `poi_relations` - POI 关系（Graph MCP 写入，Table MCP 可选读取）
+- `graph_import_log` - 图数据导入日志（Graph MCP 写入）
+
+4. **生成示例数据（可选）**
 ```bash
 python sample_data.py
 ```
 
-4. **启动 MCP Server**
+5. **启动 MCP Server**
 ```bash
 python server.py
 ```
@@ -221,14 +248,19 @@ python tests/test_feedback_tools.py
 
 ### 数据库结构
 
-数据库包含以下核心表：
+#### Table MCP 运行时表（Table MCP 读写）
 - `user_profile`: 用户档案
 - `session_intent`: 会话意图
 - `preference_memory`: 用户偏好记忆
-- `poi_info`: POI信息
 - `recommendation_log`: 推荐日志
+- `feedback_log`: 反馈日志
 
-详细结构见 `init_db.py`。
+#### Graph MCP 数据表（Graph MCP 写入，Table MCP 读取）
+- `poi_info`: POI 基础信息（Graph MCP 从图数据集转换写入）
+- `poi_relations`: POI 关系（Graph MCP 从图边转换写入）
+- `graph_import_log`: 图数据导入日志（Graph MCP 记录导入元数据）
+
+详细结构见 `init_db.py` 和 `scripts/migrate_graph_tables.py`。
 
 ## 工作流程示例
 
